@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Les tâches de {{ person }}{% endblock %}
+
+{% block body %}
+    <div class="container py-4">
+        <h1>Les tâches de {{ person }}</h1>
+
+        <a class="btn btn-outline-secondary mb-3" href="{{ path('app_task_index') }}">← Retour</a>
+
+        <ul>
+            {% for t in tasks %}
+                <li>{{ t.name }} — {{ t.importance }}</li>
+            {% else %}
+                <li>Aucune tâche trouvée pour {{ person }}.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

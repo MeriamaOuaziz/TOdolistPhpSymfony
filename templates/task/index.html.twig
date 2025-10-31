@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+{% block title %}Liste des tâches{% endblock %}
+
+{% block body %}
+    <div class="container py-4">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h1 class="h3 mb-0">Toutes les tâches</h1>
+            <a class="btn btn-primary" href="{{ path('app_task_new') }}">Ajouter une tâche</a>
+        </div>
+
+        {# Q5 : Boutons dynamiques par personne #}
+        {% if assignees is defined and assignees|length > 0 %}
+            <div class="mb-3">
+                {% for p in assignees %}
+                    <a class="btn btn-outline-secondary btn-sm me-2 mb-2"
+                       href="{{ path('app_task_by_person', { person: p }) }}">
+                        Les tâches de {{ p }}
+                    </a>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <table class="table table-striped align-middle">
+            <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Assigné à</th>
+                <th>Importance</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for task in tasks %}
+                {% set badge = task.importance == 'Haut' ? 'danger' : (task.importance == 'Moyen' ? 'warning' : 'success') %}
+                <tr>
+                    <td>
+                        <a href="{{ path('app_task_by_person', { person: task.assignedTo }) }}">
+                            {{ task.name }}
+                        </a>
+                    </td>
+                    <td>{{ task.assignedTo }}</td>
+                    <td><span class="badge text-bg-{{ badge }}">{{ task.importance }}</span></td>
+                    <td class="text-end">
+                        <a class="btn btn-sm btn-outline-secondary" href="{{ path('app_task_edit', { id: task.id }) }}">Modifier</a>
+                        <form method="post"
+                              action="{{ path('app_task_delete', { id: task.id }) }}"
+                              style="display:inline-block"
+                              onsubmit="return confirm('Supprimer cette tâche ?');">
+                            <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ task.id) }}">
+                            <input type="hidden" name="_method" value="DELETE">
+                            <button class="btn btn-sm btn-outline-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+            {% else %}
+                <tr><td colspan="4" class="text-center text-muted">Aucune tâche.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

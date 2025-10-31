@@ -1,0 +1,6 @@
+{{ form_start(form) }}
+  {{ form_row(form.name) }}
+  {{ form_row(form.assignedTo) }}
+  {{ form_row(form.importance) }}
+<button class="btn btn-primary">{{ submit_label|default('Save') }}</button>
+{{ form_end(form) }}

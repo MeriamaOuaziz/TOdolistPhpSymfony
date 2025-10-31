@@ -1,0 +1,9 @@
+{% extends 'base.html.twig' %}
+{% block title %}Modifier la tâche{% endblock %}
+{% block body %}
+    <div class="container py-4">
+        <h1>Modifier la tâche</h1>
+        {{ include('task/_form.html.twig', { submit_label: 'Update' }) }}
+        <p class="mb-0"><a href="{{ path('app_task_index') }}">back to list</a></p>
+    </div>
+{% endblock %}
