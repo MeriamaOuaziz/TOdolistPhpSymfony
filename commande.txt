@@ -1,0 +1,7 @@
+ symfony new my_project_directory --version="7.3.x" --webapp
+symfony server:start -d
+.env -> DATABASE_URL 
+DATABASE_URL="sqlite:///%kernel.project_dir%/var/data.db"
+php bin/console make:entity Task
+php bin/console make:migration
+php bin/console make:migration
